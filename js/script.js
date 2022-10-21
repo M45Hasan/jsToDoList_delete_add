@@ -1,3 +1,4 @@
+//document.designMode = "on";
 let taskinput = document.querySelector(".taskinput");
 let taskbutton = document.querySelector(".taskbutton");
 let mylist = document.querySelector(".mylist");
@@ -6,29 +7,35 @@ let result = document.querySelector(".result");
 let taskarr = [];
 
 taskbutton.addEventListener("click", () => {
-  let taskValue = taskinput.value;
-  taskarr.push(taskValue);
-  if (taskValue.length != 0) {
-    let creatList = `<div><li>${taskValue} <button class="delete"
-  onclick="delListElement(this)">Delete</button></li></div>`;
-     let x= taskarr
-      x.map((item) => {
-        if(item==taskValue){
-          
-        }
-        console.log(x);
+  let x = taskinput.value;
 
-      });
-    
-    mylist.innerHTML += creatList;
-    taskinput.value = "";
+  if (x.length != "") {
+    taskarr.push(taskinput.value);
     console.log(taskarr);
-    taskinput.classList.remove();
+    taskinput.value = "";
+
+    result.style.display = "none";
+
+    remove();
   } else {
-    taskinput.classList.remove();
+    result.innerHTML = "Enter Value";
   }
 });
-function delListElement(a) {
-  a.parentElement.remove();
+
+function remove() {
+  mylist.innerHTML = "";
+
+  taskarr.map((item) => {
+    mylist.innerHTML += `<li>${item} <button class="delete"
+    >Delete</button></li>`;
+  });
+  let delbut = document.querySelectorAll(".delete");
+  let butArr = Array.from(delbut);
+  butArr.map((itm, index) => {
+    itm.addEventListener("click", () => {
+      taskarr.splice(index, 1);
+      console.log(taskarr);
+      remove();
+    });
+  });
 }
-console.log(taskarr);
